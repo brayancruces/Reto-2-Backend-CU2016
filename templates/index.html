@@ -2,10 +2,28 @@
 <html>
 <head>
 	<title>Hola!</title>
+	<style>
+	body{font-family: Helvetica, Arial}
+    h3{color:#fff;}
+
+	.box{background-color: #171A21;padding:10px;width:30%;}
+
+	.text{background-color: #FFF;padding:10px;}
+
+	</style>
 </head>
 <body>
-   <p>Hola como estas <b>{{nickname}}</b>, sos de Steam!.</p>
 
-   <p>Su ID es <b>{{steamid}}</b></p>
+<div class="box">
+   <h3>Steam ID</h3>
+   <div class="text">
+	   <p>Hola! como estas <b>{{nickname}}</b>, bienvenido a Steam.</p>
+
+	   <p>Tu ID es <b style="color:tomato">{{steamid}}</b></p>
+   </div>
+
+</div>
+
+
 </body>
 </html>
