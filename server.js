@@ -48,18 +48,28 @@ server.route({
 
 	        mapUri: function (request, callback) {
 
-	        	console.log('doing some aditional stuff before redirecting');
+	        	console.log('Accediendo al API de Steam.');
 	        	callback(null, 'http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key='+SteamAPIKey+'&vanityurl='+request.params.nickname);
 	        }, 
 
 	        onResponse: function (err, res, request, reply, settings, ttl) {
 
-	        	console.log('receiving the response from the upstream.');
+	        	console.log('Recibiendo respuesta');
 	        	Wreck.read(res, { json: true }, function (err, payload) {
 
-	        		    console.log('Manipulamos el payload (json), y lo enviamos a la vista.')              
+	        		    console.log('Manipulamos el payload (json), y lo enviamos a la vista.')
+                        
+                        // Verificar existencia
+	        		    if (payload.response.success == 1) {
 
-	                    reply.view('index', { nickname: request.params.nickname, steamid: payload.response.steamid });
+	        		       reply.view('index', { nickname: request.params.nickname, steamid: payload.response.steamid });
+	        		    }
+
+	        		    else{
+                          reply.view('no-id', { nickname: request.params.nickname });
+
+	        		    }              
+
 	                });
 	        } 
         });
