@@ -1,0 +1,35 @@
+{
+  "name": "reto02_backend",
+  "version": "1.0.0",
+  "description": "Reto 2 del curso de Backend de Hackspace.la 2016",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brayancruces/Reto-2-Backend-CU2016.git"
+  },
+  "keywords": [
+    "reto2",
+    "backend",
+    "nodejs",
+    "npm",
+    "hapijs"
+  ],
+  "author": "Brayan Cruces",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brayancruces/Reto-2-Backend-CU2016/issues"
+  },
+  "homepage": "https://github.com/brayancruces/Reto-2-Backend-CU2016#readme",
+  "dependencies": {
+    "h2o2": "^5.0.0",
+    "handlebars": "^4.0.5",
+    "hapi": "^12.1.0",
+    "inert": "^3.2.0",
+    "path": "^0.12.7",
+    "vision": "^4.0.1"
+  }
+}
