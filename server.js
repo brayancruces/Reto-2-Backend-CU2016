@@ -11,6 +11,8 @@ var Hapi = require('hapi');
 var Vision = require('vision');
 var Path = require('path');
 var H2o2 = require('h2o2'); // Comunicacion con Steam Web API
+var Wreck = require('wreck'); // Leer JSON
+
 var server = new Hapi.Server();
 
 // My key
@@ -34,19 +36,42 @@ server.views({
 });
 
 
+
+
 server.route({
     method: 'GET',
-    path: '/{name}',
-    handler:function (request, reply) {
-    	proxy: {
-            host: 'http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key='+SteamAPIKey+'&vanityurl='+request.params.name
-        }
+    path: '/{nickname}',
+    handler: function (request, reply)  {
+    	
 
-        reply.view('index', { nickname: request.params.name }); //enviamos a la vista el "nickname"
+        reply.proxy({ 
+
+	        mapUri: function (request, callback) {
+
+	        	console.log('doing some aditional stuff before redirecting');
+	        	callback(null, 'http://api.steampowered.com/ISteamUser/ResolveVanityURL/v0001/?key='+SteamAPIKey+'&vanityurl='+request.params.nickname);
+	        }, 
+
+	        onResponse: function (err, res, request, reply, settings, ttl) {
+
+	        	console.log('receiving the response from the upstream.');
+	        	Wreck.read(res, { json: true }, function (err, payload) {
+
+	        		    console.log('Manipulamos el payload (json), y lo enviamos a la vista.')              
+
+	                    reply.view('index', { nickname: request.params.nickname, steamid: payload.response.steamid });
+	                });
+	        } 
+        });
+
+
+        
         
 
     }
 });
+
+
 
 
 
