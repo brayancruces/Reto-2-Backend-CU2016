@@ -13,6 +13,9 @@ var Path = require('path');
 var H2o2 = require('h2o2'); // Comunicacion con Steam Web API
 var Wreck = require('wreck'); // Leer JSON
 
+
+var SteamID = require('steamid');
+
 var server = new Hapi.Server();
 
 // My key
@@ -36,7 +39,14 @@ server.views({
 });
 
 
-
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: function (request, reply) {
+        reply.view('home');
+        
+    }
+});
 
 server.route({
     method: 'GET',
@@ -61,8 +71,10 @@ server.route({
                         
                         // Verificar existencia
 	        		    if (payload.response.success == 1) {
+                           var sid = new SteamID(payload.response.steamid);
+                           var SteamID_new = sid.getSteam2RenderedID();
 
-	        		       reply.view('index', { nickname: request.params.nickname, steamid: payload.response.steamid });
+	        		       reply.view('index', { nickname: request.params.nickname, steamid64: payload.response.steamid, steamid: SteamID_new });
 	        		    }
 
 	        		    else{
